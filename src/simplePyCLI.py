@@ -16,22 +16,35 @@ class simplePyCLI:
                 action, max_params, help = self.commands[cmd]
 
                 #print(in_var, "given:", len(params), "max:", max_params)
-
-                if len(params) > max_params:
-                    print(
-                        f'ERROR, {self.cursor}{in_var} -> Too many parameters. Given: {len(params)}, Requires: {max_params}')
-                elif len(params) == max_params:
+                if len(params) != max_params:
+                    if len(params) > max_params:
+                        print(
+                            f'ERROR, {self.cursor}{in_var} -> Too many parameters. Given: {len(params)}, Requires: {max_params}')
+                    else:
+                        print(
+                            f'ERROR, {self.cursor}{in_var} -> Missing parameters. Given: {len(params)}, Requires: {max_params}')
+                else:
                     print(f"OK, {self.cursor}{in_var}")
-                    # trying to execute command
                     try:
                         action(*params)  # Execute the action with the provided parameters
                     except Exception as e:
                         print("ERROR, ", e)
-                elif len(params) < max_params:
-                    print(
-                        f'ERROR, {self.cursor}{in_var} -> Missing parameters. Given: {len(params)}, Requires: {max_params}')  # Respond if the command is not recognized
-                else:
-                    print(f'ERROR, {self.cursor}{in_var} -> Unknown error ')  # Respond if
+
+                # if len(params) > max_params:
+                #     print(
+                #         f'ERROR, {self.cursor}{in_var} -> Too many parameters. Given: {len(params)}, Requires: {max_params}')
+                # elif len(params) == max_params:
+                #     print(f"OK, {self.cursor}{in_var}")
+                #     # trying to execute command
+                #     try:
+                #         action(*params)  # Execute the action with the provided parameters
+                #     except Exception as e:
+                #         print("ERROR, ", e)
+                # elif len(params) < max_params:
+                #     print(
+                #         f'ERROR, {self.cursor}{in_var} -> Missing parameters. Given: {len(params)}, Requires: {max_params}')  # Respond if the command is not recognized
+                # else:
+                #     print(f'ERROR, {self.cursor}{in_var} -> Unknown error ')  # Respond if
             elif cmd == "help":
                 self._print_help()
             else:
