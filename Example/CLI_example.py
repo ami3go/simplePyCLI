@@ -1,7 +1,10 @@
 import src.simplePyCLI as cli_class
 import datetime
-cli = cli_class.simplePyCLI(">")
-
+cli = cli_class.simplePyCLI()
+cli.cursor = ">" # setting cursor format
+cli.error_msg = "Wrong Input"
+cli.ok_msg = "OK-OK"
+cli.debug = True
 #
 # template for adding command into CLI
 #
