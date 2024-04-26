@@ -5,6 +5,10 @@ class simplePyCLI:
         self._debug = False
         self._error_msg = "ERROR"
         self._ok_msg = "OK"
+        # add default command
+        self.add_command("help",self._print_help, 0, "Print help")
+        self.add_command("toggle_debug", self._toggle_debug, 0, "Toggle short/long replay messages")
+
     @property
     def cursor(self):
         return self._cursor
@@ -69,10 +73,10 @@ class simplePyCLI:
         if cmd_with_params != "":
             cmd, *params = cmd_with_params.split()
             in_var = cmd_with_params.split()
+            # checking first if command available in list
             if cmd in self.commands:
                 # Retrieve the action and maximum parameters for the command
                 action, max_params, help = self.commands[cmd]
-
                 #print(in_var, "given:", len(params), "max:", max_params)
                 if len(params) != max_params:
                     if len(params) > max_params:
@@ -90,13 +94,14 @@ class simplePyCLI:
                     except Exception as e:
                         self._print_debug_msg(self._error_msg, e)
 
-            # Print Help
-            elif cmd == "help":
-                self._print_help()
+            # Respond if the command is not recognized
             else:
                 error_debug = f'{self._cursor}{in_var} Unknown command. Use "help" to get supported commands list'
                 self._print_debug_msg(self._error_msg, error_debug)
-                # Respond if the command is not recognized
+
+
+    def _toggle_debug(self):
+        self.debug = not self.debug
 
     def _print_debug_msg(self, short="ERROR", long=""):
         if self._debug:
