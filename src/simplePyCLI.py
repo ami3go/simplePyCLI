@@ -13,18 +13,18 @@ Tested on RP2040 MicroPython
 """
 class simplePyCLI:
 
-    def __init__(self, cli_symbol="~"):
+    def __init__(self, cli_symbol: str = "~"):
         self.commands = {}  # Dictionary to store commands and their corresponding actions
         self._cursor = cli_symbol
         self._debug = False
         self._error_msg = "ERROR"
         self._ok_msg = "OK"
         # add default command
-        self.add_command("help",self._print_help, 0, "Print help")
+        self.add_command("help", self._print_help, 0, "Print help")
         self.add_command("toggle_debug", self._toggle_debug, 0, "Toggle short/long replay messages")
 
     @property
-    def cursor(self):
+    def cursor(self) -> None:
         return self._cursor
 
     @cursor.setter
@@ -32,7 +32,7 @@ class simplePyCLI:
         self._cursor = symbol
 
     @property
-    def debug(self):
+    def debug(self) -> None:
         return self._debug
 
     @debug.setter
@@ -45,7 +45,7 @@ class simplePyCLI:
         self._debug = bool(val)
 
     @property
-    def error_msg(self):
+    def error_msg(self) -> None:
         return self._error_msg
 
     @error_msg.setter
@@ -58,7 +58,7 @@ class simplePyCLI:
         self._error_msg = f"{txt}"
 
     @property
-    def ok_msg(self):
+    def ok_msg(self) -> None:
         return self._ok_msg
 
     @ok_msg.setter
@@ -72,7 +72,7 @@ class simplePyCLI:
         '''
         self._ok_msg = f"{txt}"
 
-    def add_command(self, command:str , action, max_params: int =3, description: str =""):
+    def add_command(self, command: str, action, max_params: int = 3, description: str = ""):
         '''
         Adding command into memory
         :param command: string that will bre recognised as command
