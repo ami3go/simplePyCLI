@@ -115,14 +115,14 @@ class simplePyCLI:
                 self._print_debug_msg(self._error_msg, error_debug)
 
 
-    def _toggle_debug(self):
+    def _toggle_debug(self) -> None:
         '''
         Toggling debug variable value. you can see incoming messages
         :return: None
         '''
         self.debug = not self.debug
 
-    def _print_debug_msg(self, short: str ="ERROR", long: str =""):
+    def _print_debug_msg(self, short: str ="ERROR", long: str ="") -> None:
         '''
         Print "error" or "Ok" messages based on value of debug variable
         if debug = True full message will be returned
@@ -136,7 +136,7 @@ class simplePyCLI:
         else:
             print(f"{short}")
 
-    def _print_help(self):
+    def _print_help(self) -> None:
         cmd_keys = list(self.commands.keys())
         n = 30
         print("-" * n, "HELP", "-" * n)
