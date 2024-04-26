@@ -4,8 +4,7 @@ class simplePyCLI:
         self.cursor = cli_symbol
 
     def add_command(self, command, action, max_params=3, description=""):
-        self.commands[command] = (
-        action, max_params, description)  # Store the action and maximum parameters for the command
+        self.commands[command] = (action, max_params, description)  # Store the action and maximum parameters for the command
         # print(self.commands)
 
     def process_command(self, cmd_with_params):
@@ -13,8 +12,8 @@ class simplePyCLI:
             cmd, *params = cmd_with_params.split()
             in_var = cmd_with_params.split()
             if cmd in self.commands:
-                action, max_params, help = self.commands[
-                    cmd]  # Retrieve the action and maximum parameters for the command
+                # Retrieve the action and maximum parameters for the command
+                action, max_params, help = self.commands[cmd]
 
                 #print(in_var, "given:", len(params), "max:", max_params)
 
@@ -23,6 +22,7 @@ class simplePyCLI:
                         f'ERROR, {self.cursor}{in_var} -> Too many parameters. Given: {len(params)}, Requires: {max_params}')
                 elif len(params) == max_params:
                     print(f"OK, {self.cursor}{in_var}")
+                    # trying to execute command
                     try:
                         action(*params)  # Execute the action with the provided parameters
                     except Exception as e:
@@ -35,7 +35,7 @@ class simplePyCLI:
             elif cmd == "help":
                 self._print_help()
             else:
-                print(f'ERROR, {self.cursor}{in_var} Unknown command. Use "help" for supported commands ')
+                print(f'ERROR, {self.cursor}{in_var} Unknown command. Use "help" to get supported commands list')
                 # Respond if the command is not recognized
 
     def _print_help(self, cmd=""):
