@@ -1,4 +1,18 @@
+
+"""
+File: simplePyCLI.py
+Author: Aleksandr Chasnyk,
+link: https://github.com/ami3go
+Start Date: 27.04.24
+Last update:
+
+Description:
+Simple CLI for micropython and python projects when
+command line interface is required.
+Tested on RP2040 MicroPython
+"""
 class simplePyCLI:
+
     def __init__(self, cli_symbol="~"):
         self.commands = {}  # Dictionary to store commands and their corresponding actions
         self._cursor = cli_symbol
