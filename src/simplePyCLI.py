@@ -19,14 +19,24 @@ class simplePyCLI:
 
     @debug.setter
     def debug(self, val):
-        self._debug = val
+        '''
+        Enable/Disable extended error messages
+        :param val: bool could be  True or False
+        :return: None
+        '''
+        self._debug = bool(val)
 
     @property
     def error_msg(self):
         return self._error_msg
     @error_msg.setter
     def error_msg(self, txt):
-        self._error_msg = txt
+        '''
+        Setting short message in case of Error
+        :param txt: string with short message for error, typically "ERROR"
+        :return: None
+        '''
+        self._error_msg = f"{txt}"
 
     @property
     def ok_msg(self):
@@ -34,9 +44,24 @@ class simplePyCLI:
 
     @ok_msg.setter
     def ok_msg(self, txt):
-        self._ok_msg = txt
+        '''
+        Setting short confirmation message.
+        It confirms that command founded in list
+        and proper number of parameters provided
+        :param txt: string with short message for error, typically "OK"
+        :return: None
+        '''
+        self._ok_msg = f"{txt}"
 
     def add_command(self, command, action, max_params=3, description=""):
+        '''
+        Adding command into memory
+        :param command: string that will bre recognised as command
+        :param action: function which will be called
+        :param max_params:  maximum number of parameters function need to take
+        :param description: text description for generating help
+        :return: None
+        '''
         self.commands[command] = (action, max_params, description)  # Store the action and maximum parameters for the command
         # print(self.commands)
 
@@ -72,6 +97,7 @@ class simplePyCLI:
                 error_debug = f'{self._cursor}{in_var} Unknown command. Use "help" to get supported commands list'
                 self._print_debug_msg(self._error_msg, error_debug)
                 # Respond if the command is not recognized
+
     def _print_debug_msg(self, short="ERROR", long=""):
         if self._debug:
             print(f"{short}, {long}")
