@@ -3,6 +3,8 @@ class simplePyCLI:
         self.commands = {}  # Dictionary to store commands and their corresponding actions
         self._cursor = cli_symbol
         self._debug = False
+        self._error_msg = "ERROR"
+        self._ok_msg = "OK"
     @property
     def cursor(self):
         return self._cursor
@@ -19,6 +21,21 @@ class simplePyCLI:
     def debug(self, val):
         self._debug = val
 
+    @property
+    def error_msg(self):
+        return self._error_msg
+    @error_msg.setter
+    def error_msg(self, txt):
+        self._error_msg = txt
+
+    @property
+    def ok_msg(self):
+        return self._ok_msg
+
+    @ok_msg.setter
+    def ok_msg(self, txt):
+        self._ok_msg = txt
+
     def add_command(self, command, action, max_params=3, description=""):
         self.commands[command] = (action, max_params, description)  # Store the action and maximum parameters for the command
         # print(self.commands)
@@ -34,25 +51,33 @@ class simplePyCLI:
                 #print(in_var, "given:", len(params), "max:", max_params)
                 if len(params) != max_params:
                     if len(params) > max_params:
-                        print(
-                            f'ERROR, {self._cursor}{in_var} -> Too many parameters. Given: {len(params)}, Requires: {max_params}')
+                        error_debug = f'{self._cursor}{in_var} -> Too many parameters. Given: {len(params)}, Requires: {max_params}'
                     else:
-                        print(
-                            f'ERROR, {self._cursor}{in_var} -> Missing parameters. Given: {len(params)}, Requires: {max_params}')
+                        error_debug = f'{self._cursor}{in_var} -> Missing parameters. Given: {len(params)}, Requires: {max_params}'
+                    self._print_debug_msg(self._error_msg, error_debug)
                 else:
-                    print(f"OK, {self._cursor}{in_var}")
+                    ok_debug = f"{self._cursor}{in_var}"
+                    self._print_debug_msg(self.ok_msg, ok_debug)
                     # Execute the action with the provided parameters
+
                     try:
                         action(*params)
                     except Exception as e:
-                        print("ERROR, ", e)
+                        self._print_debug_msg(self._error_msg, e)
 
             # Print Help
             elif cmd == "help":
                 self._print_help()
             else:
-                print(f'ERROR, {self._cursor}{in_var} Unknown command. Use "help" to get supported commands list')
+                error_debug = f'{self._cursor}{in_var} Unknown command. Use "help" to get supported commands list'
+                self._print_debug_msg(self._error_msg, error_debug)
                 # Respond if the command is not recognized
+    def _print_debug_msg(self, short="ERROR", long=""):
+        if self._debug:
+            print(f"{short}, {long}")
+        else:
+            print(f"{short}")
+
 
     def _print_help(self, cmd=""):
         cmd_keys = list(self.commands.keys())
