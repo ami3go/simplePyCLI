@@ -28,7 +28,7 @@ class simplePyCLI:
         return self._cursor
 
     @cursor.setter
-    def cursor(self, symbol):
+    def cursor(self, symbol: str) ->None:
         self._cursor = symbol
 
     @property
@@ -36,7 +36,7 @@ class simplePyCLI:
         return self._debug
 
     @debug.setter
-    def debug(self, val):
+    def debug(self, val: bool) -> None:
         '''
         Enable/Disable extended error messages
         :param val: bool could be  True or False
@@ -47,8 +47,9 @@ class simplePyCLI:
     @property
     def error_msg(self):
         return self._error_msg
+
     @error_msg.setter
-    def error_msg(self, txt):
+    def error_msg(self, txt: str) -> None:
         '''
         Setting short message in case of Error
         :param txt: string with short message for error, typically "ERROR"
@@ -61,7 +62,7 @@ class simplePyCLI:
         return self._ok_msg
 
     @ok_msg.setter
-    def ok_msg(self, txt):
+    def ok_msg(self, txt: str) -> None:
         '''
         Setting short confirmation message.
         It confirms that command founded in list
@@ -71,7 +72,7 @@ class simplePyCLI:
         '''
         self._ok_msg = f"{txt}"
 
-    def add_command(self, command, action, max_params=3, description=""):
+    def add_command(self, command:str , action, max_params: int =3, description: str =""):
         '''
         Adding command into memory
         :param command: string that will bre recognised as command
@@ -115,16 +116,27 @@ class simplePyCLI:
 
 
     def _toggle_debug(self):
+        '''
+        Toggling debug variable value. you can see incoming messages
+        :return: None
+        '''
         self.debug = not self.debug
 
-    def _print_debug_msg(self, short="ERROR", long=""):
+    def _print_debug_msg(self, short: str ="ERROR", long: str =""):
+        '''
+        Print "error" or "Ok" messages based on value of debug variable
+        if debug = True full message will be returned
+        if debug  False only shor message will be returned
+        :param short: string for short message
+        :param long: string for log messages
+        :return: None
+        '''
         if self._debug:
             print(f"{short}, {long}")
         else:
             print(f"{short}")
 
-
-    def _print_help(self, cmd=""):
+    def _print_help(self):
         cmd_keys = list(self.commands.keys())
         n = 30
         print("-" * n, "HELP", "-" * n)
