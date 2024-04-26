@@ -13,30 +13,30 @@ Tested on RP2040 MicroPython
 """
 class simplePyCLI:
 
-    def __init__(self, cli_symbol="~"):
+    def __init__(self, cli_symbol: str = "~"):
         self.commands = {}  # Dictionary to store commands and their corresponding actions
         self._cursor = cli_symbol
         self._debug = False
         self._error_msg = "ERROR"
         self._ok_msg = "OK"
         # add default command
-        self.add_command("help",self._print_help, 0, "Print help")
+        self.add_command("help", self._print_help, 0, "Print help")
         self.add_command("toggle_debug", self._toggle_debug, 0, "Toggle short/long replay messages")
 
     @property
-    def cursor(self):
+    def cursor(self) -> None:
         return self._cursor
 
     @cursor.setter
-    def cursor(self, symbol):
+    def cursor(self, symbol: str) ->None:
         self._cursor = symbol
 
     @property
-    def debug(self):
+    def debug(self) -> None:
         return self._debug
 
     @debug.setter
-    def debug(self, val):
+    def debug(self, val: bool) -> None:
         '''
         Enable/Disable extended error messages
         :param val: bool could be  True or False
@@ -45,10 +45,11 @@ class simplePyCLI:
         self._debug = bool(val)
 
     @property
-    def error_msg(self):
+    def error_msg(self) -> None:
         return self._error_msg
+
     @error_msg.setter
-    def error_msg(self, txt):
+    def error_msg(self, txt: str) -> None:
         '''
         Setting short message in case of Error
         :param txt: string with short message for error, typically "ERROR"
@@ -57,11 +58,11 @@ class simplePyCLI:
         self._error_msg = f"{txt}"
 
     @property
-    def ok_msg(self):
+    def ok_msg(self) -> None:
         return self._ok_msg
 
     @ok_msg.setter
-    def ok_msg(self, txt):
+    def ok_msg(self, txt: str) -> None:
         '''
         Setting short confirmation message.
         It confirms that command founded in list
@@ -71,7 +72,7 @@ class simplePyCLI:
         '''
         self._ok_msg = f"{txt}"
 
-    def add_command(self, command, action, max_params=3, description=""):
+    def add_command(self, command: str, action, max_params: int = 3, description: str = ""):
         '''
         Adding command into memory
         :param command: string that will bre recognised as command
@@ -114,17 +115,28 @@ class simplePyCLI:
                 self._print_debug_msg(self._error_msg, error_debug)
 
 
-    def _toggle_debug(self):
+    def _toggle_debug(self) -> None:
+        '''
+        Toggling debug variable value. you can see incoming messages
+        :return: None
+        '''
         self.debug = not self.debug
 
-    def _print_debug_msg(self, short="ERROR", long=""):
+    def _print_debug_msg(self, short: str ="ERROR", long: str ="") -> None:
+        '''
+        Print "error" or "Ok" messages based on value of debug variable
+        if debug = True full message will be returned
+        if debug  False only shor message will be returned
+        :param short: string for short message
+        :param long: string for log messages
+        :return: None
+        '''
         if self._debug:
             print(f"{short}, {long}")
         else:
             print(f"{short}")
 
-
-    def _print_help(self, cmd=""):
+    def _print_help(self) -> None:
         cmd_keys = list(self.commands.keys())
         n = 30
         print("-" * n, "HELP", "-" * n)
