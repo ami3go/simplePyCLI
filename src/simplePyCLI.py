@@ -1,7 +1,23 @@
 class simplePyCLI:
-    def __init__(self, cli_symbol):
+    def __init__(self, cli_symbol="~"):
         self.commands = {}  # Dictionary to store commands and their corresponding actions
-        self.cursor = cli_symbol
+        self._cursor = cli_symbol
+        self._debug = False
+    @property
+    def cursor(self):
+        return self._cursor
+
+    @cursor.setter
+    def cursor(self, symbol):
+        self._cursor = symbol
+
+    @property
+    def debug(self):
+        return self._debug
+
+    @debug.setter
+    def debug(self, val):
+        self._debug = val
 
     def add_command(self, command, action, max_params=3, description=""):
         self.commands[command] = (action, max_params, description)  # Store the action and maximum parameters for the command
@@ -19,36 +35,23 @@ class simplePyCLI:
                 if len(params) != max_params:
                     if len(params) > max_params:
                         print(
-                            f'ERROR, {self.cursor}{in_var} -> Too many parameters. Given: {len(params)}, Requires: {max_params}')
+                            f'ERROR, {self._cursor}{in_var} -> Too many parameters. Given: {len(params)}, Requires: {max_params}')
                     else:
                         print(
-                            f'ERROR, {self.cursor}{in_var} -> Missing parameters. Given: {len(params)}, Requires: {max_params}')
+                            f'ERROR, {self._cursor}{in_var} -> Missing parameters. Given: {len(params)}, Requires: {max_params}')
                 else:
-                    print(f"OK, {self.cursor}{in_var}")
+                    print(f"OK, {self._cursor}{in_var}")
+                    # Execute the action with the provided parameters
                     try:
-                        action(*params)  # Execute the action with the provided parameters
+                        action(*params)
                     except Exception as e:
                         print("ERROR, ", e)
 
-                # if len(params) > max_params:
-                #     print(
-                #         f'ERROR, {self.cursor}{in_var} -> Too many parameters. Given: {len(params)}, Requires: {max_params}')
-                # elif len(params) == max_params:
-                #     print(f"OK, {self.cursor}{in_var}")
-                #     # trying to execute command
-                #     try:
-                #         action(*params)  # Execute the action with the provided parameters
-                #     except Exception as e:
-                #         print("ERROR, ", e)
-                # elif len(params) < max_params:
-                #     print(
-                #         f'ERROR, {self.cursor}{in_var} -> Missing parameters. Given: {len(params)}, Requires: {max_params}')  # Respond if the command is not recognized
-                # else:
-                #     print(f'ERROR, {self.cursor}{in_var} -> Unknown error ')  # Respond if
+            # Print Help
             elif cmd == "help":
                 self._print_help()
             else:
-                print(f'ERROR, {self.cursor}{in_var} Unknown command. Use "help" to get supported commands list')
+                print(f'ERROR, {self._cursor}{in_var} Unknown command. Use "help" to get supported commands list')
                 # Respond if the command is not recognized
 
     def _print_help(self, cmd=""):
@@ -57,5 +60,5 @@ class simplePyCLI:
         print("-" * n, "HELP", "-" * n)
         for cmd in cmd_keys:
             action, params, help = self.commands[cmd]
-            print(f"{self.cursor} {cmd}  {'X ' * params} ; Desc: {help}")
-        print("-" * n, "-" * 4, "-" * n)
+            print(f"{self._cursor} {cmd}  {'X ' * params} ; Desc: {help}")
+        print("-" * (2*n + 6))

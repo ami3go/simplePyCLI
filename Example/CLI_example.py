@@ -1,7 +1,7 @@
 import src.simplePyCLI as cli_class
 import datetime
-cli = cli_class.simplePyCLI(">")
-
+cli = cli_class.simplePyCLI()
+cli.cursor = ">"
 #
 # template for adding command into CLI
 #
