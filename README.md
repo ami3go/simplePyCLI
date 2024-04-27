@@ -19,7 +19,7 @@ For MiroPython example check:
 Option 1 - install as module:
 
 ```
-pip3 install git+https://github.com/SengerM/VotschTechnik-climate-chamber-Python
+pip3 install git+https://github.com/ami3go/simplePyCLI
 ```
 Option 2 
 
